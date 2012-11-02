@@ -1,15 +1,33 @@
-// Here's my data model
-var ViewModel = function(first, last) {
-	this.firstName = ko.observable(first);
-	this.lastName = ko.observable(last);
+function Friend(name) {
+    return {
+        name: ko.observable(name)
+    };
+}
 
-	this.fullName = ko.computed(function() {
-		// Knockout tracks dependencies automatically. It knows that fullName
-		// depends on firstName and lastName, because these get called when
-		// evaluating fullName.
-		return this.firstName() + " " + this.lastName();
-	}, this);
+// Here's my data model
+var ViewModel = function (first, last) {
+    this.firstName = ko.observable(first);
+    this.lastName = ko.observable(last);
+
+    this.fullName = ko.dependentObservable(function () {
+        return this.firstName() + " " + this.lastName();
+    }, this);
+
+
+    this.friends = ko.observableArray();
+
+    // Methods of the ViewModel "class".
+    this.addFriend = function (friendName) {
+        this.friends.push(new Friend(friendName));
+    };
 };
 
-ko.applyBindings(new ViewModel("Planet", "Earth")); // This makes Knockout get
-													// to work
+
+var viewModelInstance = new ViewModel("Planet", "Earth");
+viewModelInstance.addFriend("Alex");
+viewModelInstance.addFriend("Tomas");
+viewModelInstance.addFriend("Gerhard");
+
+
+// This makes Knockout get to work
+ko.applyBindings(viewModelInstance);
