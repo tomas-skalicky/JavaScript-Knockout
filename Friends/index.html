@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Knockout: Hello World</title>
+
+<script type='text/javascript' src='js/lib/knockout-2.2.0.js'></script>
+<script type='text/javascript' src='js/lib/jquery-1.8.2.js'></script>
+<script type='text/javascript' src='js/lib/jquery.tmpl.js'></script>
+</head>
+
+<body>
+	<section>
+		<p>First name: <input data-bind='value: firstName' /></p>
+		<p>Last name: <input data-bind='value: lastName' /></p>
+        <p>Full name: <span data-bind='text: fullName'></span></p>
+
+		<h2>Friends (<span data-bind="text: friends().length"></span>)</h2>
+        <ul>
+            <div data-bind="foreach: friends">
+                <li>
+                    <input data-bind="value: name" />
+                    <button data-bind="click: remove">Remove</button>
+
+                    <label><input id="isOnTwitter" type="checkbox" data-bind="checked: isOnTwitter" /> Is on Twitter</label>
+                    <input data-bind="value: twitterName, visible: isOnTwitter" />
+                </li>
+            </div>
+
+            <li>
+                <input data-bind="value: newFriendName, disable: isUpperBoundReached" />
+                <button data-bind="click: addFriend, disable: isUpperBoundReached">Add friend</button>
+            </li>
+        </ul>
+    </section>
+
+    <script type='text/javascript' src='js/viewModel.js'></script>
+</body>
+</html>
